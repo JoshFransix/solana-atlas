@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { GlossaryTerm } from "@stbr/solana-glossary";
+import type { GlossaryTerm } from "@/lib/glossary";
 
 interface AtlasState {
   selectedTerm: GlossaryTerm | null;
