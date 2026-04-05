@@ -31,7 +31,7 @@ function initNodeObjects() {
 
 export default function GraphCanvas() {
   const fgRef = useRef<any>(null);
-  const { selectedTerm, hoveredId, searchQuery, setSelectedTerm, setHoveredId } =
+  const { selectedTerm, hoveredId, searchQuery, setSelectedTerm, setHoveredId, theme } =
     useAtlasStore();
 
   const highlightIds = useMemo<Set<string>>(() => {
@@ -50,6 +50,8 @@ export default function GraphCanvas() {
     initNodeObjects();
     const hasSearch = !!searchQuery.trim();
     const hasSelection = !!selectedTerm;
+    const dimColor = theme === "dark" ? "#0d0d20" : "#d0d0e4";
+    const dimOpacity = theme === "dark" ? 0.12 : 0.3;
 
     for (const node of graphData.nodes) {
       const mat = nodeMaterials.get(node.id);
@@ -62,13 +64,13 @@ export default function GraphCanvas() {
           mat.opacity = 0.95;
           mesh.scale.setScalar(1);
         } else {
-          mat.color.set("#0d0d20");
-          mat.opacity = 0.15;
+          mat.color.set(dimColor);
+          mat.opacity = dimOpacity;
           mesh.scale.setScalar(1);
         }
       } else if (hasSelection) {
         if (node.id === selectedTerm!.id) {
-          mat.color.set("#ffffff");
+          mat.color.set(theme === "dark" ? "#ffffff" : "#0a0a1a");
           mat.opacity = 1;
           mesh.scale.setScalar(1.6);
         } else if (highlightIds.has(node.id)) {
@@ -76,12 +78,12 @@ export default function GraphCanvas() {
           mat.opacity = 0.95;
           mesh.scale.setScalar(1);
         } else {
-          mat.color.set("#0d0d20");
-          mat.opacity = 0.12;
+          mat.color.set(dimColor);
+          mat.opacity = dimOpacity;
           mesh.scale.setScalar(1);
         }
       } else if (node.id === hoveredId) {
-        mat.color.set("#ffffff");
+        mat.color.set(theme === "dark" ? "#ffffff" : "#0a0a1a");
         mat.opacity = 1;
         mesh.scale.setScalar(1.5);
       } else {
@@ -91,7 +93,7 @@ export default function GraphCanvas() {
       }
       mat.needsUpdate = true;
     }
-  }, [selectedTerm, hoveredId, highlightIds, searchQuery, searchResultIds]);
+  }, [selectedTerm, hoveredId, highlightIds, searchQuery, searchResultIds, theme]);
 
   const nodeThreeObject = useCallback((node: object) => {
     initNodeObjects();
@@ -102,14 +104,18 @@ export default function GraphCanvas() {
   const selectedIdRef = useRef<string | null>(null);
   selectedIdRef.current = selectedTerm?.id ?? null;
 
+  const themeRef = useRef<string>("dark");
+  themeRef.current = theme;
+
   const getLinkColor = useCallback((link: object) => {
     const l = link as { source: string | GraphNode; target: string | GraphNode };
     const srcId = typeof l.source === "object" ? l.source.id : l.source;
     const tgtId = typeof l.target === "object" ? l.target.id : l.target;
+    const isDark = themeRef.current === "dark";
     if (selectedIdRef.current && (srcId === selectedIdRef.current || tgtId === selectedIdRef.current)) {
-      return "rgba(255,255,255,0.45)";
+      return isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)";
     }
-    return "rgba(255,255,255,0.04)";
+    return isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.07)";
   }, []);
 
   const handleNodeClick = useCallback(
@@ -163,7 +169,7 @@ export default function GraphCanvas() {
       linkColor={getLinkColor}
       linkWidth={0.3}
       linkOpacity={1}
-      backgroundColor="#050510"
+      backgroundColor={theme === "dark" ? "#050510" : "#f0f0f8"}
       onNodeClick={handleNodeClick}
       onNodeHover={handleNodeHover}
       enableNodeDrag={false}

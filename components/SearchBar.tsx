@@ -35,10 +35,10 @@ export default function SearchBar() {
     : null;
 
   return (
-    <div className="relative flex items-center gap-3">
-      <div className="relative">
+    <div className="relative flex w-full items-center gap-2">
+      <div className="relative flex-1">
         <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#0a0a1a]/30 dark:text-white/30"
           width="14"
           height="14"
           viewBox="0 0 16 16"
@@ -54,18 +54,19 @@ export default function SearchBar() {
           value={searchQuery}
           onChange={handleChange}
           className="
-            h-9 w-64 rounded-lg border border-white/10 bg-white/5
-            pl-9 pr-3 text-sm text-white placeholder-white/30
+            h-9 w-full rounded-lg border border-black/10 bg-black/5
+            pl-9 pr-8 text-sm text-[#0a0a1a] placeholder-[#0a0a1a]/30
             outline-none focus:border-[#9945FF] focus:ring-1 focus:ring-[#9945FF]/40
             transition-all
+            dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder-white/30
           "
         />
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-white/20 select-none">
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 hidden text-[10px] text-[#0a0a1a]/20 select-none sm:block dark:text-white/20">
           ⌘K
         </span>
       </div>
       {resultCount !== null && (
-        <span className="text-xs text-white/40">
+        <span className="hidden text-xs text-[#0a0a1a]/40 sm:block dark:text-white/40">
           {resultCount} result{resultCount !== 1 ? "s" : ""}
         </span>
       )}

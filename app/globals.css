@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #050510;
   --foreground: #ffffff;
@@ -30,7 +32,7 @@ body {
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: rgba(128, 128, 160, 0.2) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -42,6 +44,6 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(128, 128, 160, 0.2);
   border-radius: 4px;
 }

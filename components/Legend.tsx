@@ -24,18 +24,20 @@ export default function Legend() {
     <div
       className="
         absolute bottom-4 left-4
-        rounded-xl border border-white/10 bg-[#0a0a1a]/80
-        backdrop-blur-md p-3 grid grid-cols-2 gap-x-4 gap-y-1.5
+        hidden md:grid
+        rounded-xl border border-black/10 bg-white/90
+        backdrop-blur-md p-3 grid-cols-2 gap-x-4 gap-y-1.5
         shadow-xl
+        dark:border-white/10 dark:bg-[#0a0a1a]/80
       "
     >
       {Object.entries(CATEGORY_COLORS).map(([cat, color]) => (
         <div key={cat} className="flex items-center gap-1.5">
           <span
-            className="h-2 w-2 rounded-full flex-shrink-0"
+            className="h-2 w-2 rounded-full shrink-0"
             style={{ backgroundColor: color }}
           />
-          <span className="text-[10px] text-white/50">{CATEGORY_LABELS[cat] ?? cat}</span>
+          <span className="text-[10px] text-[#0a0a1a]/50 dark:text-white/50">{CATEGORY_LABELS[cat] ?? cat}</span>
         </div>
       ))}
     </div>
